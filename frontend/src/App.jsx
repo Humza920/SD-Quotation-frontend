@@ -1,35 +1,50 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Sidebar from "./Sidebar";
+import React from "react";
+import Login from "./pages/Forms/Login";
+import Signup from "./pages/Forms/Signup";
+import { Routes, Route } from "react-router-dom";
+import ClientDashboard from "./pages/admin/ClientList";
+import UserManagement from "./pages/admin/UserManagement";
+import NewInvoice from "./pages/admin/NewInvoice";
+import Template from "./pages/admin/Templeate";
+import Setting from "./pages/admin/profile/Setting";
+import Profile from "./pages/admin/profile/Profile";
+import About from "./pages/admin/profile/About";
+import Notification from "./pages/admin/profile/Notification";
+import FAQs from "./pages/admin/profile/FAQ";
+import Layout from "./pages/Layout";
+import Dashboard from "./pages/admin/Dashboard";
+import QuotationHistory from "./pages/admin/QuotationHistory";
+import { AuthProvider } from "./context/AuthContext";
+import { DataProvider } from "./context/DataContext";
 
-// Import your page components (yeh tum bana lena baad mein)
-import Dashboard from "./pages/Dashboard";
-import CreateQuotation from "./pages/CreateQuotation";
-import ClientList from "./pages/ClientList";
-import Templates from "./pages/Templates";
-import UserManagement from "./pages/UserManagement";
-
-function App() {
+const App = () => {
   return (
-    <Router>
-      <div className="flex">
-        <Sidebar />
-        
-     
-        <main className="flex-1 ml-[255px] p-6 bg-gray-50 min-h-screen">
-          <Routes>
+    <AuthProvider>
+      <DataProvider>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+
+          {/* Protected/Admin Layout */}
+          <Route element={<Layout />}>
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/dashboard/create-quotation" element={<CreateQuotation />} />
-            <Route path="/dashboard/client-list" element={<ClientList />} />
-            <Route path="/dashboard/templates" element={<Templates />} />
-            <Route path="/dashboard/user-management" element={<UserManagement />} />
-            
-            {/* Default route - redirect to dashboard */}
-            <Route path="/" element={<Dashboard />} />
-          </Routes>
-        </main>
-      </div>
-    </Router>
+            <Route path="/client-list" element={<ClientDashboard />} />
+            <Route path="/user-management" element={<UserManagement />} />
+            <Route path="/new-invoice" element={<NewInvoice />} />
+            <Route path="/template" element={<Template />} />
+            <Route path="/quotation-history" element={<QuotationHistory />} />
+          </Route>
+          <Route path="/notifications" element={<Notification />} />
+          <Route path="/setting" element={<Setting />} />
+          <Route path="/faq" element={<FAQs />} />
+          <Route path="/about" element={<About />} />
+
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
+      </DataProvider>
+    </AuthProvider>
   );
-}
+};
 
 export default App;
